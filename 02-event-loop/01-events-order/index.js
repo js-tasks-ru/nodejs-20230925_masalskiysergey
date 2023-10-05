@@ -1,23 +1,26 @@
+// queue: []
+// nextTickQueue: []
+// promiseQueue: []
+
 const intervalId = setInterval(() => {
-  console.log('James');
+    console.log('James');
 }, 10);
 
 setTimeout(() => {
-  const promise = new Promise((resolve) => {
-    console.log('Richard');
-    resolve('Robert');
-  });
+    const promise = new Promise(resolve => {
+        console.log('Richard');
+        resolve('Robert');
+    });
 
-  promise
-      .then((value) => {
+    promise.then(value => {
         console.log(value);
 
         setTimeout(() => {
-          console.log('Michael');
+            console.log('Michael');
 
-          clearInterval(intervalId);
+            clearInterval(intervalId);
         }, 10);
-      });
+    });
 
-  console.log('John');
+    console.log('John');
 }, 10);
