@@ -1,8 +1,9 @@
 const url = require('url');
-const http = require('http');
+const { Server } = require('http');
 const path = require('path');
+const fs = require('node:fs');
 
-const server = new http.Server();
+const server = new Server();
 
 server.on('request', (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
@@ -12,7 +13,24 @@ server.on('request', (req, res) => {
 
   switch (req.method) {
     case 'DELETE':
+      fs.access(filepath, fs.constants.F_OK, err => {
+        if (pathname.split('/').length > 1) {
+          res.statusCode = 400;
+          res.end('Invalid path');
+          return;
+        }
 
+        if (err) {
+          res.statusCode = 404;
+          res.end('File not found');
+          return;
+        }
+
+        fs.unlink(filepath, () => {
+          res.statusCode = 200;
+          res.end('File deleted');
+        });
+      });
       break;
 
     default:
