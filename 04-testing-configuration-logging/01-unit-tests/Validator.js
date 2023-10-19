@@ -12,26 +12,31 @@ module.exports = class Validator {
       const value = obj[field];
       const type = typeof value;
 
+      if (rules.type && !value) {
+        errors.push({ field, error: `expect field ${field}: "${rules.type}"` });
+        return errors;
+      }
+
       if (type !== rules.type) {
-        errors.push({field, error: `expect ${rules.type}, got ${type}`});
+        errors.push({ field, error: `expect ${rules.type}, got ${type}` });
         return errors;
       }
 
       switch (type) {
         case 'string':
           if (value.length < rules.min) {
-            errors.push({field, error: `too short, expect ${rules.min}, got ${value.length}`});
+            errors.push({ field, error: `too short, expect ${rules.min}, got ${value.length}` });
           }
           if (value.length > rules.max) {
-            errors.push({field, error: `too long, expect ${rules.max}, got ${value.length}`});
+            errors.push({ field, error: `too long, expect ${rules.max}, got ${value.length}` });
           }
           break;
         case 'number':
           if (value < rules.min) {
-            errors.push({field, error: `too little, expect ${rules.min}, got ${value}`});
+            errors.push({ field, error: `too little, expect ${rules.min}, got ${value}` });
           }
           if (value > rules.max) {
-            errors.push({field, error: `too big, expect ${rules.min}, got ${value}`});
+            errors.push({ field, error: `too big, expect ${rules.max}, got ${value}` });
           }
           break;
       }

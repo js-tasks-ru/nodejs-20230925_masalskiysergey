@@ -5,8 +5,8 @@ const os = require('os');
 
 describe('streams/line-split-stream', () => {
   describe('LineSplitStream', () => {
-    it('стрим разбивает данные по строкам', (done) => {
-      const lines = new LineSplitStream({encoding: 'utf-8'});
+    it('стрим разбивает данные по строкам', done => {
+      const lines = new LineSplitStream({ encoding: 'utf-8' });
 
       const onData = sinon.spy();
 
@@ -23,8 +23,8 @@ describe('streams/line-split-stream', () => {
       lines.end();
     });
 
-    it('стрим корректно передает данные даже если чанк не завершается переводом строки', (done) => {
-      const lines = new LineSplitStream({encoding: 'utf-8'});
+    it('стрим корректно передает данные даже если чанк не завершается переводом строки', done => {
+      const lines = new LineSplitStream({ encoding: 'utf-8' });
 
       const onData = sinon.spy();
 
@@ -46,8 +46,8 @@ describe('streams/line-split-stream', () => {
       lines.end();
     });
 
-    it('событие onData срабатывает для всех строк, которые есть в чанке', (done) => {
-      const lines = new LineSplitStream({encoding: 'utf-8'});
+    it('событие onData срабатывает для всех строк, которые есть в чанке', done => {
+      const lines = new LineSplitStream({ encoding: 'utf-8' });
 
       const onData = sinon.spy();
 
@@ -70,11 +70,11 @@ describe('streams/line-split-stream', () => {
 
     it('стрим не должен накапливать данные', function (done) {
       this.timeout(0);
-      const lines = new LineSplitStream({encoding: 'utf-8'});
+      const lines = new LineSplitStream({ encoding: 'utf-8' });
 
       const timeout = setTimeout(function () {
-        done(new Error('стрим должен предавать данные дальше как только есть вся строка, а не накапливать данные'))
-      }, 500)
+        done(new Error('стрим должен предавать данные дальше как только есть вся строка, а не накапливать данные'));
+      }, 500);
 
       const onData = sinon.spy(() => {
         lines.end();
@@ -83,11 +83,11 @@ describe('streams/line-split-stream', () => {
       lines.on('data', onData);
       lines.on('end', () => {
         expect(onData.firstCall.args[0]).to.equal('a');
-        clearTimeout(timeout)
+        clearTimeout(timeout);
         done();
       });
 
-      lines.write(`a${os.EOL}`)
-    })
+      lines.write(`a${os.EOL}`);
+    });
   });
 });
