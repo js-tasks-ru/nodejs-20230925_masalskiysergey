@@ -2,20 +2,17 @@ const axios = require('axios');
 const app = require('../app');
 const expect = require('chai').expect;
 
-
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-
 
 describe('koajs/chat-app', () => {
   describe('тесты на чат', () => {
     let server;
 
-    before((done) => {
+    before(done => {
       server = app.listen(3000, done);
     });
 
-    after((done) => {
-
+    after(done => {
       server.close(done);
     });
 
@@ -59,11 +56,7 @@ describe('koajs/chat-app', () => {
 
         await sleep(50);
 
-
-        await axios.post('http://127.0.0.1:3000/publish', {}, {
-          validateStatus: () => true,
-        });
-
+        await axios.post('http://127.0.0.1:3000/publish', {}, { validateStatus: () => true });
 
         await sleep(50);
 
