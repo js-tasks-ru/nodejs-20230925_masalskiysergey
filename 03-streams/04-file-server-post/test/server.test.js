@@ -71,7 +71,6 @@ describe('streams/file-server-post', () => {
         request.on('error', err => {
           // EPIPE/ECONNRESET/ECONNABORTED error should occur because we try to pipe after res closed
           if (!['ECONNRESET', 'EPIPE', 'ECONNABORTED'].includes(err.code)) done(err);
-          done();
         });
 
         fse.createReadStream(path.join(fixturesFolder, 'big.png')).pipe(request);
