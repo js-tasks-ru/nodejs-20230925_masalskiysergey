@@ -5,6 +5,7 @@ const app = new Koa();
 app.use(require('koa-static')(path.join(__dirname, 'public')));
 app.use(require('koa-bodyparser')());
 
+
 let resolves = [];
 
 const Router = require('koa-router');
@@ -35,6 +36,7 @@ router.post('/publish', async (ctx, next) => {
 
   ctx.status = 204;
   ctx.message = '"No content"';
+
 });
 
 app.use(router.routes());
