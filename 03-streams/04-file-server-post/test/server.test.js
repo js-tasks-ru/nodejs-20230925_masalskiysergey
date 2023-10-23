@@ -62,7 +62,6 @@ describe('streams/file-server-post', () => {
       it('при попытке создания слишком большого файла - ошибка 413', done => {
         const request = http.request('http://localhost:3001/big.png', { method: 'POST' }, response => {
           expect(response.statusCode, 'статус код ответа сервера 413').to.equal(413);
-
           setTimeout(() => {
             expect(fse.existsSync(path.join(filesFolder, 'big.png')), 'файл big.png не должен оставаться на диске').to.be.false;
             done();
