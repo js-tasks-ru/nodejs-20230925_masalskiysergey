@@ -1,5 +1,6 @@
 const Product = require('./../models/Product');
 const mongoose = require('mongoose');
+const productMapper = require('./../mappers/product');
 
 module.exports.productsBySubcategory = async function productsBySubcategory(ctx, next) {
   const { subcategory } = ctx.query;
@@ -8,17 +9,7 @@ module.exports.productsBySubcategory = async function productsBySubcategory(ctx,
 
   try {
     ctx.body = {
-      products: (await Product.find({ subcategory: subcategory })).map(product => {
-        return {
-          id: product._id.toString(),
-          title: product.title,
-          images: product.images,
-          category: product.category.toString(),
-          subcategory: product.subcategory.toString(),
-          price: product.price,
-          description: product.description,
-        };
-      }),
+      products: (await Product.find({ subcategory: subcategory })).map(product => productMapper(product)),
     };
   } catch (err) {
     ctx.throw(err);
@@ -27,17 +18,7 @@ module.exports.productsBySubcategory = async function productsBySubcategory(ctx,
 
 module.exports.productList = async function productList(ctx, next) {
   ctx.body = {
-    products: (await Product.find()).map(item => {
-      return {
-        id: item._id.toString(),
-        title: item.title,
-        images: item.images,
-        category: item.category.toString(),
-        subcategory: item.subcategory.toString(),
-        price: item.price,
-        description: item.description,
-      };
-    }),
+    products: (await Product.find()).map(item => productMapper(item)),
   };
 };
 
@@ -53,15 +34,7 @@ module.exports.productById = async function productById(ctx, next) {
     }
 
     ctx.body = {
-      product: {
-        id: findProduct._id.toString(),
-        title: findProduct.title,
-        description: findProduct.description,
-        price: findProduct.price,
-        category: findProduct.category.toString(),
-        subcategory: findProduct.subcategory.toString(),
-        images: findProduct.images,
-      },
+      product: productMapper(findProduct),
     };
 
     ctx.status = 200;
