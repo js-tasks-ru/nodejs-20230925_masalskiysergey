@@ -5,7 +5,7 @@ const User = require('../models/User');
 const users = require('../../../data/users');
 
 describe('authentication/oauth', () => {
-  describe('функция аутентификации', function() {
+  describe('функция аутентификации', function () {
     before(async () => {
       await User.deleteMany();
 
@@ -21,7 +21,7 @@ describe('authentication/oauth', () => {
       connection.close();
     });
 
-    it('функция authenticate должна возвращать ошибку, если email не передаётся', (done) => {
+    it('функция authenticate должна возвращать ошибку, если email не передаётся', done => {
       authenticate('vkontakte', undefined, 'name', (err, user, msg) => {
         if (err) return done(err);
 
@@ -31,12 +31,12 @@ describe('authentication/oauth', () => {
       });
     });
 
-    it('функция authenticate должна создавать пользователя если его еще нет', (done) => {
+    it('функция authenticate должна создавать пользователя если его еще нет', done => {
       authenticate('vkontakte', 'newuser@mail.com', 'name', (err, user) => {
         if (err) return done(err);
 
         expect(user.email).to.equal('newuser@mail.com');
-        User.findOne({email: 'newuser@mail.com'}, (err, usr) => {
+        User.findOne({ email: 'newuser@mail.com' }, (err, usr) => {
           if (err) return done(err);
 
           expect(usr.email).to.equal('newuser@mail.com');
@@ -45,7 +45,7 @@ describe('authentication/oauth', () => {
       });
     });
 
-    it('функция authenticate выбрасывает ошибку если email невалидный', (done) => {
+    it('функция authenticate выбрасывает ошибку если email невалидный', done => {
       authenticate('vkontakte', 'emailemailemail', 'name', (err, user) => {
         expect(err).to.not.to.be.null;
         expect(err.name).to.equal('ValidationError');
@@ -54,7 +54,7 @@ describe('authentication/oauth', () => {
       });
     });
 
-    it('функция authenticate возвращает пользователя, который уже есть в базе', (done) => {
+    it('функция authenticate возвращает пользователя, который уже есть в базе', done => {
       authenticate('vkontakte', 'user1@mail.com', 'user1', (err, user) => {
         if (err) return done(err);
 
