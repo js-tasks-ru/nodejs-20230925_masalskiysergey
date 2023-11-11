@@ -10,7 +10,7 @@ module.exports.checkout = async function checkout(ctx, next) {
 
   const userId = session.user.toString();
 
-  const order = new Order({ user: userId, ...ctx.request.body });
+  const order = new Order({ ...ctx.request.body, user: userId });
   await order.save();
 
   ctx.body = { order: order.id.toString() };
